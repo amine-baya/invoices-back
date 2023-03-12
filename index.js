@@ -20,12 +20,10 @@ app.use(bodyParser.json());
 app.post('/create-pdf', (req, res) => {
     pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
         if(err) {
-            console.error(err);
-            res.status(500).send('Error creating PDF');
-            return;
+            res.send(Promise.reject());
         }
 
-        res.status(200).send('PDF created successfully');
+        res.send(Promise.resolve());
     });
 });
 
