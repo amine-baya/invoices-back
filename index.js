@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://invoices-front.onrender.com/',
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
   }));
