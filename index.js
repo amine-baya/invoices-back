@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'helloooooooooooooooooo');
-    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+    const timestamp = new Date().getTime();
+    pdf.create(pdfTemplate(req.body), {}).toFile(`result-${timestamp}.pdf`, (err) => {
         if(err) {
            return res.send(Promise.reject());
         }
