@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const pdf = require('html-pdf');
 const cors = require('cors');
@@ -19,8 +20,12 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'helloooooooooooooooooo');
-    const timestamp = new Date().getTime();
     pdf.create(pdfTemplate(req.body), {}).toFile(`result-${timestamp}.pdf`, (err) => {
+        const timestamp = new Date().getTime();
+        const originalFile = `${__dirname}/result.pdf`;
+        const newFile = `${__dirname}/result-${timestamp}.pdf`;
+
+        fs.copyFileSync(originalFile, newFile);
         if(err) {
            return res.send(Promise.reject());
         }
@@ -29,9 +34,14 @@ app.post('/create-pdf', (req, res) => {
     });
 });
 
+
+
 app.get('/fetch-pdf', (req, res) => {
     const files = fs.readdirSync(__dirname).filter(file => file.startsWith('result-'));
+    console.log(files,'h1111111111111');
     const latestFile = files.sort().reverse()[0];
+    console.log(latestFile,'h2222222222222');
+
 
     if (!latestFile) {
         return res.status(404).send('PDF file not found');
