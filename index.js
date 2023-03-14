@@ -49,6 +49,9 @@ app.get('/fetch-pdf', (req, res) => {
         return res.status(404).send('PDF file not found');
     }
 
+    // set cache-control header to prevent caching of the PDF file
+    res.set('Cache-Control', 'max-age=0');
+
     res.sendFile(`${__dirname}/${latestFile}`);
 });
 
