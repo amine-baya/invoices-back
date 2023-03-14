@@ -30,7 +30,14 @@ app.post('/create-pdf', (req, res) => {
 });
 
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
-})
+    const files = fs.readdirSync(__dirname).filter(file => file.startsWith('result-'));
+    const latestFile = files.sort().reverse()[0];
+
+    if (!latestFile) {
+        return res.status(404).send('PDF file not found');
+    }
+
+    res.sendFile(`${__dirname}/${latestFile}`);
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
