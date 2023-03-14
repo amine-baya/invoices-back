@@ -24,12 +24,6 @@ app.post('/create-pdf', (req, res) => {
     const originalFile = `${__dirname}/result.pdf`;
     const newFile = `${__dirname}/result-${timestamp}.pdf`;
 
-    // Delete existing result.pdf file
-    try {
-        fs.unlinkSync(originalFile);
-    } catch (err) {
-        // Ignore error if file doesn't exist
-    }
 
     pdf.create(pdfTemplate(req.body), {}).toFile(`result-${timestamp}.pdf`, (err) => {
         
