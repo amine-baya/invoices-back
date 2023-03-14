@@ -35,7 +35,8 @@ app.post('/create-pdf', (req, res) => {
 
 
 app.get('/fetch-pdf', (req, res) => {
-    const files = fs.readdirSync(__dirname).filter(file => file.startsWith('result-'));
+    //const files = fs.readdirSync(__dirname).filter(file => file.startsWith('result-'));
+    const files = fs.readdirSync(path.join(__dirname, '../')).filter(file => file.startsWith('result-'));
     console.log(files,'h1111111111111');
     const latestFile = files.sort().reverse()[0];
     console.log(latestFile,'h2222222222222');
@@ -48,7 +49,7 @@ app.get('/fetch-pdf', (req, res) => {
     // set cache-control header to prevent caching of the PDF file
     res.set('Cache-Control', 'max-age=0');
 
-    res.sendFile(`${__dirname}/${latestFile}`);
+    res.sendFile(`${path.join(__dirname, '../')}/${latestFile}`);
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
