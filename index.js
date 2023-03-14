@@ -20,10 +20,12 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'helloooooooooooooooooo');
+    const timestamp = new Date().getTime();
+    const originalFile = `${__dirname}/result.pdf`;
+    const newFile = `${__dirname}/result-${timestamp}.pdf`;
+
     pdf.create(pdfTemplate(req.body), {}).toFile(`result-${timestamp}.pdf`, (err) => {
-        const timestamp = new Date().getTime();
-        const originalFile = `${__dirname}/result.pdf`;
-        const newFile = `${__dirname}/result-${timestamp}.pdf`;
+        
 
         fs.copyFileSync(originalFile, newFile);
         if(err) {
