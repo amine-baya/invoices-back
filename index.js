@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'hellooooooooooo');
-    pdf.create(pdfTemplate(req.body), {}).toFile(path.join(pdfDirectory, `${req.body.clientData.name}.pdf`), (err) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile(path.join(pdfDirectory, `${req?.body?.clientData?.name}.pdf`), (err) => {
         if(err) {
            return res.send(Promise.reject());
         }
