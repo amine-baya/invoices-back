@@ -3,6 +3,11 @@ const bodyParser = require('body-parser');
 const pdf = require('html-pdf');
 const cors = require('cors');
 
+const fs = require('fs');
+const path = require('path');
+
+const pdfDirectory = path.join(__dirname, 'pdfs');
+
 const pdfTemplate = require('./documents');
 
 const app = express();
@@ -19,7 +24,7 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'hellooooooooooo');
-    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile(path.join(pdfDirectory, 'result.pdf'), (err) => {
         if(err) {
            return res.send(Promise.reject());
         }
@@ -29,7 +34,7 @@ app.post('/create-pdf', (req, res) => {
 });
 
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
+    res.sendFile(path.join(pdfDirectory, 'result.pdf'))
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
