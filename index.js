@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 
 app.post('/create-pdf', (req, res) => {
     console.log(req.body,'hellooooooooooo');
-    pdf.create(pdfTemplate(req.body), {}).toFile(path.join(pdfDirectory, 'result.pdf'), (err) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile(path.join(pdfDirectory, `${req.body.clientData.name}.pdf`), (err) => {
         if(err) {
            return res.send(Promise.reject());
         }
@@ -34,7 +34,7 @@ app.post('/create-pdf', (req, res) => {
 });
 
 app.get('/fetch-pdf', (req, res) => {
-    res.sendFile(path.join(pdfDirectory, 'result.pdf'))
+    res.sendFile(path.join(pdfDirectory, `${req.body.clientData.name}.pdf`))
 })
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
